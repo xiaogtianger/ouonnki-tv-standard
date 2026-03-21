@@ -1,0 +1,10 @@
+{
+  "name": "tv-standard-auto",
+  "version": "1.0.0",
+  "scripts": {
+    "generate": "node encode.js"
+  },
+  "dependencies": {
+    "bs58": "^5.0.0"
+  }
+}
