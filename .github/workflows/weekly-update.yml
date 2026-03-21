@@ -1,0 +1,31 @@
+name: Weekly Update TV Standard Sources
+
+on:
+  schedule:
+    - cron: '0 4 * * 1'          # 每周一 UTC 04:00（北京时间约中午12:00）
+  workflow_dispatch:             # 支持手动触发
+
+permissions:
+  contents: write                # 必须开启写权限
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - run: npm install
+
+      - run: npm run generate
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name 'GitHub Actions'
+          git config --global user.email 'actions@github.com'
+          git add ouonnki-tv-latest.json ouonnki-tv-latest.txt
+          git commit -m "Weekly auto update from hafrey1 - $(date +'%Y-%m-%d')" || echo "No changes to commit"
+          git push
